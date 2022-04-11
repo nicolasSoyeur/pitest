@@ -244,6 +244,18 @@ public class AbstractPitMojo extends AbstractMojo {
   private int                         mutationThreshold;
 
   /**
+   * Round up the mutationTotal value
+   */
+  @Parameter(defaultValue = "false", property = "roundUpMutationTotal")
+  private boolean                     roundUpMutationTotal;
+
+  /**
+   * Round up the coverageTotal value
+   */
+  @Parameter(defaultValue = "false", property = "roundUpCoverageTotal")
+  private boolean                     roundUpCoverageTotal;
+
+  /**
    * Test strength score threshold at which to fail build
    */
   @Parameter(defaultValue = "0", property = "testStrengthThreshold")
@@ -419,7 +431,8 @@ public class AbstractPitMojo extends AbstractMojo {
       final Optional<CombinedStatistics> result = analyse();
       if (result.isPresent()) {
         throwErrorIfTestStrengthBelowThreshold(result.get().getMutationStatistics());
-        throwErrorIfScoreBelowThreshold(result.get().getMutationStatistics());
+        throwErrorIfScoreBelowThreshold(result.get().getMutationStatistics(),
+                roundUpMutationTotal);
         throwErrorIfMoreThanMaximumSurvivors(result.get().getMutationStatistics());
         throwErrorIfCoverageBelowThreshold(result.get().getCoverageSummary());
       }
@@ -453,12 +466,13 @@ public class AbstractPitMojo extends AbstractMojo {
     }
   }
 
-  private void throwErrorIfScoreBelowThreshold(final MutationStatistics result)
+  private void throwErrorIfScoreBelowThreshold(final MutationStatistics result,
+                                               final boolean roundUpMutation)
       throws MojoFailureException {
     if ((this.mutationThreshold != 0)
-        && (result.getPercentageDetected() < this.mutationThreshold)) {
+        && (result.getPercentageDetected(roundUpMutation) < this.mutationThreshold)) {
       throw new MojoFailureException("Mutation score of "
-          + result.getPercentageDetected() + " is below threshold of "
+          + result.getPercentageDetected(roundUpMutation) + " is below threshold of "
           + this.mutationThreshold);
     }
   }
@@ -714,6 +728,24 @@ public class AbstractPitMojo extends AbstractMojo {
   public String getVerbosity() {
     return verbosity;
   }
+
+  public boolean isRoundUpMutationTotal() {
+    return roundUpMutationTotal;
+  }
+
+  public boolean isRoundUpCoverageTotal() {
+    return roundUpCoverageTotal;
+  }
+
+  public void setRoundUpMutationTotal(boolean roundUpMutationTotal) {
+    this.roundUpMutationTotal = roundUpMutationTotal;
+  }
+
+  public void setRoundUpCoverageTotal(boolean roundUpCoverageTotal) {
+    this.roundUpCoverageTotal = roundUpCoverageTotal;
+  }
+
+
 
   static class RunDecision {
     private List<String> reasons = new ArrayList<>(4);

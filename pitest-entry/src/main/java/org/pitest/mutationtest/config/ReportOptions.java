@@ -120,6 +120,8 @@ public class ReportOptions {
   private boolean                        exportLineCoverage             = false;
   private int                            mutationThreshold;
   private int                            coverageThreshold;
+  private boolean                        roundUpMutationTotal             = false;
+  private boolean                        roundUpCoverageTotal             = false;
   private int                            testStrengthThreshold;
 
   private String                         mutationEngine                 = "gregor";
@@ -172,6 +174,22 @@ public class ReportOptions {
 
   public void setClassPathElements(final Collection<String> classPathElements) {
     this.classPathElements = classPathElements;
+  }
+
+  public boolean isRoundUpMutationTotal() {
+    return roundUpMutationTotal;
+  }
+
+  public void setRoundUpMutationTotal(boolean roundUpMutationTotal) {
+    this.roundUpMutationTotal = roundUpMutationTotal;
+  }
+
+  public boolean isRoundUpCoverageTotal() {
+    return roundUpCoverageTotal;
+  }
+
+  public void setRoundUpCoverageTotal(boolean roundUpCoverageTotal) {
+    this.roundUpCoverageTotal = roundUpCoverageTotal;
   }
 
   /**
@@ -635,8 +653,10 @@ public class ReportOptions {
         + ", shouldCreateTimestampedReports=" + shouldCreateTimestampedReports
         + ", detectInlinedCode=" + detectInlinedCode + ", exportLineCoverage="
         + exportLineCoverage + ", mutationThreshold=" + mutationThreshold + ", testStrengthThreshold=" + testStrengthThreshold
-        + ", coverageThreshold=" + coverageThreshold + ", mutationEngine="
-        + mutationEngine + ", javaExecutable=" + javaExecutable
+        + ", coverageThreshold=" + coverageThreshold
+        + ", roundUpMutationTotal=" + roundUpMutationTotal
+        + ", roundUpCoverageTotal=" + roundUpCoverageTotal
+        + ", mutationEngine=" + mutationEngine + ", javaExecutable=" + javaExecutable
         + ", includeLaunchClasspath=" + includeLaunchClasspath + ", properties="
         + properties + ", maxSurvivors=" + maxSurvivors + ", excludedRunners="
         + excludedRunners + ", includedTestMethods=" + includedTestMethods

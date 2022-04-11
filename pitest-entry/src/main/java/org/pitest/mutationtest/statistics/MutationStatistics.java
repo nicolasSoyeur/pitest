@@ -59,7 +59,7 @@ public final class MutationStatistics {
     return getTotalMutations() - getTotalDetectedMutations();
   }
 
-  public long getPercentageDetected() {
+  public long getPercentageDetected(boolean roundUpMutation) {
     if (getTotalMutations() == 0) {
       return 100;
     }
@@ -68,14 +68,27 @@ public final class MutationStatistics {
       return 0;
     }
 
-    return Math.round((100f / getTotalMutations())
-        * getTotalDetectedMutations());
+    if (getTotalMutations() == getTotalDetectedMutations()) {
+      return 100;
+    }
+
+    MutationPercentageComputation computation;
+    if (roundUpMutation) {
+      computation = (long x, long y)
+              -> (Math.round((100f / x) * y));
+    } else {
+      computation = (long x, long y)
+              -> (long) ((100f / x) * y);
+    }
+
+    return computation.calculate(getTotalMutations(),
+            getTotalDetectedMutations());
   }
 
-  public void report(final PrintStream out) {
+  public void report(final PrintStream out, boolean roundUpMutation) {
     out.println(">> Generated " + this.getTotalMutations()
         + " mutations Killed " + this.getTotalDetectedMutations() + " ("
-        + this.getPercentageDetected() + "%)");
+        + this.getPercentageDetected(roundUpMutation) + "%)");
     out.println(">> Mutations with no coverage " + this.getTotalMutationsWithoutCoverage()
             + ". Test strength " + this.getTestStrength() + "%");
     out.println(">> Ran " + this.numberOfTestsRun + " tests ("

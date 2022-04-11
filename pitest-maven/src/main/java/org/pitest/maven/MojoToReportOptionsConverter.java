@@ -152,6 +152,9 @@ public class MojoToReportOptionsConverter {
 
     checkForObsoleteOptions(this.mojo);
 
+    data.setRoundUpCoverageTotal(this.mojo.isRoundUpCoverageTotal());
+    data.setRoundUpMutationTotal(this.mojo.isRoundUpMutationTotal());
+
     return data;
   }
 

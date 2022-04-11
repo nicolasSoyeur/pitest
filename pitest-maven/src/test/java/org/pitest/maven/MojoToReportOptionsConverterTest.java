@@ -420,6 +420,26 @@ public class MojoToReportOptionsConverterTest extends BasePitMojoTest {
     assertTrue(actual.useClasspathJar());
   }
 
+  public void testRoundUpMutationTotalDefault() {
+    final ReportOptions actual = parseConfig("<useClasspathJar>true</useClasspathJar>");
+    assertFalse(actual.isRoundUpMutationTotal());
+  }
+
+  public void testRoundUpMutationTotal() {
+    final ReportOptions actual = parseConfig("<roundUpMutationTotal>true</roundUpMutationTotal>");
+    assertTrue(actual.isRoundUpMutationTotal());
+  }
+
+  public void testRoundUpCoverageTotalDefault() {
+    final ReportOptions actual = parseConfig("<useClasspathJar>true</useClasspathJar>");
+    assertFalse(actual.isRoundUpCoverageTotal());
+  }
+
+  public void testRoundUpCoverageTotal() {
+    final ReportOptions actual = parseConfig("<roundUpCoverageTotal>true</roundUpCoverageTotal>");
+    assertTrue(actual.isRoundUpCoverageTotal());
+  }
+
   public void testFailsIfObsoleteMaxMutationsParameterUsed() {
     assertThatCode( () -> parseConfig("<maxMutationsPerClass>1</maxMutationsPerClass>"))
             .hasMessageContaining("+CLASSLIMIT(limit[1])");

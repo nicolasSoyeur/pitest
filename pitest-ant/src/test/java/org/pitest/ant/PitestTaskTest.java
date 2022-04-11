@@ -434,6 +434,20 @@ public class PitestTaskTest {
   }
 
   @Test
+  public void shouldPassRoundUpMutationTotalToJavaTask() {
+    this.pitestTask.setRoundUpMutationTotal("true");
+    this.pitestTask.execute(this.java);
+    verify(this.arg).setValue("--roundUpMutationTotal=true");
+  }
+
+  @Test
+  public void shouldRoundUpCoverageTotalToJavaTask() {
+    this.pitestTask.setRoundUpCoverageTotal("true");
+    this.pitestTask.execute(this.java);
+    verify(this.arg).setValue("--roundUpCoverageTotal=true");
+  }
+
+  @Test
   public void shouldPassMutationThresholdToJavaTask() {
     this.pitestTask.setMutationThreshold("42");
     this.pitestTask.execute(this.java);

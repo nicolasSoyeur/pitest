@@ -93,6 +93,19 @@ public class PitReportMojo extends AbstractMavenReport {
   @Parameter(property = "pit.report.outputdir", defaultValue = "pit-reports")
   private String                  siteReportDirectory;
 
+
+  /**
+   * Round up the mutationTotal value
+   */
+  @Parameter(defaultValue = "false", property = "roundUpMutationTotal")
+  private boolean                     roundUpMutationTotal;
+
+  /**
+   * Round up the coverageTotal value
+   */
+  @Parameter(defaultValue = "false", property = "roundUpCoverageTotal")
+  private boolean                     roundUpCoverageTotal;
+
   private ReportGenerationManager reportGenerationManager;
 
   public PitReportMojo() {
@@ -100,6 +113,7 @@ public class PitReportMojo extends AbstractMavenReport {
 
     this.reportGenerationManager = new ReportGenerationManager();
   }
+
 
   @Override
   public String getOutputName() {
@@ -176,6 +190,14 @@ public class PitReportMojo extends AbstractMavenReport {
 
   public List<String> getSourceDataFormats() {
     return this.sourceDataFormats;
+  }
+
+  public boolean isRoundUpMutationTotal() {
+    return roundUpMutationTotal;
+  }
+
+  public boolean isRoundUpCoverageTotal() {
+    return roundUpCoverageTotal;
   }
 
   private ReportGenerationContext buildReportGenerationContext(Locale locale) {

@@ -303,7 +303,7 @@ public class MutationCoverage {
               coverage.getNumberOfLines(), coverage.getCoverage()));
     }
 
-    stats.report(ps);
+    stats.report(ps, data.isRoundUpMutationTotal());
   }
 
   private List<MutationAnalysisUnit> buildMutationTests(CoverageDatabase coverageData,

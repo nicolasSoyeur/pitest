@@ -419,6 +419,20 @@ public class OptionsParserTest {
   }
 
   @Test
+  public void shouldParseRoundUpMutationTotal() {
+    final ReportOptions actual = parseAddingRequiredArgs("--roundUpMutationTotal",
+            "true");
+    assertEquals(true, actual.isRoundUpMutationTotal());
+  }
+
+  @Test
+  public void shouldParseRoundUpCoverageTotal() {
+    final ReportOptions actual = parseAddingRequiredArgs("--roundUpCoverageTotal",
+            "true");
+    assertEquals(true, actual.isRoundUpCoverageTotal());
+  }
+
+  @Test
   public void shouldParseTestStrengthThreshold() {
     final ReportOptions actual = parseAddingRequiredArgs("--testStrengthThreshold",
             "50");

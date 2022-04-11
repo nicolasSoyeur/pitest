@@ -236,6 +236,14 @@ public class PitestTask extends Task { // NO_UCD (test only)
     this.setOption(ConfigOption.MUTATION_THRESHOLD, value);
   }
 
+  public void setRoundUpMutationTotal(final String value) {
+    this.setOption(ConfigOption.ROUND_UP_MUTATION_TOTAL, value);
+  }
+
+  public void setRoundUpCoverageTotal(final String value) {
+    this.setOption(ConfigOption.ROUND_UP_COVERAGE_TOTAL, value);
+  }
+
   public void setTestStrengthThreshold(final String value) {
     this.setOption(ConfigOption.TEST_STRENGTH_THRESHOLD, value);
   }

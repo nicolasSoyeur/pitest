@@ -86,6 +86,8 @@ import static org.pitest.mutationtest.config.ConfigOption.USE_CLASSPATH_JAR;
 import static org.pitest.mutationtest.config.ConfigOption.USE_INLINED_CODE_DETECTION;
 import static org.pitest.mutationtest.config.ConfigOption.VERBOSE;
 import static org.pitest.mutationtest.config.ConfigOption.VERBOSITY;
+import static org.pitest.mutationtest.config.ConfigOption.ROUND_UP_COVERAGE_TOTAL;
+import static org.pitest.mutationtest.config.ConfigOption.ROUND_UP_MUTATION_TOTAL;
 
 public class OptionsParser {
 
@@ -126,6 +128,8 @@ public class OptionsParser {
   private final OptionSpec<Integer>                  mutationUnitSizeSpec;
   private final ArgumentAcceptingOptionSpec<Boolean> timestampedReportsSpec;
   private final ArgumentAcceptingOptionSpec<Boolean> detectInlinedCode;
+  private final ArgumentAcceptingOptionSpec<Boolean> roundUpMutationTotalSpec;
+  private final ArgumentAcceptingOptionSpec<Boolean> roundUpCoverageTotalSpec;
   private final ArgumentAcceptingOptionSpec<Integer> mutationThreshHoldSpec;
   private final ArgumentAcceptingOptionSpec<Integer> testStrengthThreshHoldSpec;
   private final ArgumentAcceptingOptionSpec<Integer> coverageThreshHoldSpec;
@@ -212,6 +216,20 @@ public class OptionsParser {
         .defaultsTo(true)
         .describedAs(
             "whether or not to try and detect code inlined from finally blocks");
+
+    this.roundUpCoverageTotalSpec = parserAccepts(ROUND_UP_COVERAGE_TOTAL)
+            .withOptionalArg()
+            .ofType(Boolean.class)
+            .defaultsTo(false)
+            .describedAs(
+                    "whether or not to round up the coverage total computation");
+
+    this.roundUpMutationTotalSpec = parserAccepts(ROUND_UP_MUTATION_TOTAL)
+            .withOptionalArg()
+            .ofType(Boolean.class)
+            .defaultsTo(false)
+            .describedAs(
+                    "whether or not to round up the mutation total computation");
 
     this.timestampedReportsSpec = parserAccepts(TIME_STAMPED_REPORTS)
         .withOptionalArg().ofType(Boolean.class).defaultsTo(true)
@@ -436,6 +454,8 @@ public class OptionsParser {
     data.setHistoryInputLocation(this.historyInputSpec.value(userArgs));
     data.setHistoryOutputLocation(this.historyOutputSpec.value(userArgs));
     data.setMutationThreshold(this.mutationThreshHoldSpec.value(userArgs));
+    data.setRoundUpCoverageTotal(this.roundUpCoverageTotalSpec.value(userArgs));
+    data.setRoundUpMutationTotal(this.roundUpMutationTotalSpec.value(userArgs));
     data.setTestStrengthThreshold(this.testStrengthThreshHoldSpec.value(userArgs));
     data.setMaximumAllowedSurvivors(this.maxSurvivingSpec.value(userArgs));
     data.setCoverageThreshold(this.coverageThreshHoldSpec.value(userArgs));

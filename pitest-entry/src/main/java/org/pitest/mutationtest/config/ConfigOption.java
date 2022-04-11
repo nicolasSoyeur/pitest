@@ -201,6 +201,16 @@ public enum ConfigOption {
   COVERAGE_THRESHOLD("coverageThreshold", 0),
 
   /**
+   * Do/don't use a round up to compute the total mutation
+   */
+  ROUND_UP_MUTATION_TOTAL("roundUpMutationTotal", false),
+
+  /**
+   * Do/don't use a round up to compute the total coverage
+   */
+  ROUND_UP_COVERAGE_TOTAL("roundUpCoverageTotal", false),
+
+  /**
    * Mutation engine to use
    */
   MUTATION_ENGINE("mutationEngine", "gregor"),

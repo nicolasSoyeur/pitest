@@ -110,11 +110,19 @@ public class MutationStatisticsPrecursorTest {
   }
 
   @Test
-  public void shouldCalculatePercentageDetected() {
+  public void shouldCalculatePercentageDetectedRoundUp() {
     this.testee.registerResults(Arrays.asList(
             makeResult(DetectionStatus.SURVIVED),
             makeResult(DetectionStatus.KILLED)));
-    assertEquals(50, this.testee.toStatistics().getPercentageDetected());
+    assertEquals(50, this.testee.toStatistics().getPercentageDetected(true));
+  }
+
+  @Test
+  public void shouldCalculatePercentageDetectedRoundDown() {
+    this.testee.registerResults(Arrays.asList(
+            makeResult(DetectionStatus.SURVIVED),
+            makeResult(DetectionStatus.KILLED)));
+    assertEquals(50, this.testee.toStatistics().getPercentageDetected(false));
   }
 
   @Test
@@ -188,7 +196,7 @@ public class MutationStatisticsPrecursorTest {
   private String[] generateReportLines() {
     final ByteArrayOutputStream s = new ByteArrayOutputStream();
     final PrintStream out = new PrintStream(s);
-    this.testee.toStatistics().report(out);
+    this.testee.toStatistics().report(out,false);
     final String actual = new String(s.toByteArray());
     return actual.split(StringUtil.newLine());
   }
